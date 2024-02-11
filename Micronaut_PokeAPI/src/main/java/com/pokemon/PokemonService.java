@@ -24,5 +24,9 @@ public class PokemonService {
     public List<Pokemon> getAllPokemons() {
         return pokemonRepository.findAll();
     }
+
+    public Pokemon getPokemonById(int id) {
+        return pokemonRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pokemon with id [" + id + "] not found!"));
+    }
 }
 

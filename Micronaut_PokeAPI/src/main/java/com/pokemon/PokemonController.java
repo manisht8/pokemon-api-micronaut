@@ -1,9 +1,6 @@
 package com.pokemon;
 
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,16 @@ public class PokemonController {
                     pokemon.getCreatedAt(),
                     pokemon.getUpdatedAt()))
         .toList();
+  }
+
+  @Get("/{id}")
+  public PokemonResponse getPokemonById(@PathVariable int id) {
+    Pokemon pokemon = pokemonService.getPokemonById(id);
+    return new PokemonResponse(
+        pokemon.getId(),
+        pokemon.getName(),
+        pokemon.getBaseExperience(),
+        pokemon.getCreatedAt(),
+        pokemon.getUpdatedAt());
   }
 }

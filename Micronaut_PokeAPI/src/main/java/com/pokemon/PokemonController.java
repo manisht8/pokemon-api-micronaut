@@ -1,7 +1,6 @@
 package com.pokemon;
 
 import io.micronaut.http.annotation.*;
-
 import java.util.List;
 
 @Controller("/api/pokemons")
@@ -15,6 +14,7 @@ public class PokemonController {
   @Post
   public Pokemon addPokemon(@Body PokemonRequest pokemonRequest) {
     return pokemonService.addPokemon(pokemonRequest);
+//    throw new EntityNotFoundException("Pokemon not found!");
   }
 
   @Get
@@ -35,6 +35,17 @@ public class PokemonController {
   @Get("/{id}")
   public PokemonResponse getPokemonById(@PathVariable int id) {
     Pokemon pokemon = pokemonService.getPokemonById(id);
+    return new PokemonResponse(
+        pokemon.getId(),
+        pokemon.getName(),
+        pokemon.getBaseExperience(),
+        pokemon.getCreatedAt(),
+        pokemon.getUpdatedAt());
+  }
+
+  @Get("/search/{name}")
+  public PokemonResponse getPokemonByName(@PathVariable String name) {
+    Pokemon pokemon = pokemonService.getPokemonByName(name);
     return new PokemonResponse(
         pokemon.getId(),
         pokemon.getName(),

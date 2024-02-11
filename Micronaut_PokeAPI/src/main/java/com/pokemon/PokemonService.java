@@ -28,5 +28,14 @@ public class PokemonService {
     public Pokemon getPokemonById(int id) {
         return pokemonRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pokemon with id [" + id + "] not found!"));
     }
+
+    public Pokemon getPokemonByName(String name) {
+        Pokemon pokemon = pokemonRepository.findByName(name);
+        if(pokemon != null){
+            return pokemon;
+        } else {
+            throw new EntityNotFoundException("Pokemon with name [" + name + "] not found!");
+        }
+    }
 }
 

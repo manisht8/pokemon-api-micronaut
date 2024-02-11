@@ -56,4 +56,15 @@ public class PokemonControllerShould {
     assertThat(pokemon.id()).isEqualTo(5);
     assertThat(pokemon.name()).isEqualTo("Pikachu");
   }
+
+  @Test
+  void invoke_get_pokemon_by_name_in_service_and_returns_pokemon() {
+    when(pokemonService.getPokemonByName("Pikachu")).thenReturn(new Pokemon(5, "Pikachu", 25));
+
+    PokemonResponse pokemon = pokemonController.getPokemonByName("Pikachu");
+
+    verify(pokemonService).getPokemonByName("Pikachu");
+    assertThat(pokemon.id()).isEqualTo(5);
+    assertThat(pokemon.name()).isEqualTo("Pikachu");
+  }
 }

@@ -11,11 +11,9 @@ import com.pokemon.Pokemon;
 import com.pokemon.PokemonRepository;
 import com.pokemon.PokemonRequest;
 import com.pokemon.PokemonService;
+import com.pokemon.exceptions.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import com.pokemon.exceptions.EntityNotFoundException;
-import io.micronaut.core.annotation.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,8 +68,32 @@ public class PokemonServiceShould {
   void get_pokemon_by_id_throws_exception() {
     when(pokemonRepository.findById(5)).thenReturn(Optional.empty());
 
-    assertThrows(EntityNotFoundException.class, () -> {
+    assertThrows(
+        EntityNotFoundException.class,
+        () -> {
           pokemonService.getPokemonById(5);
+        });
+  }
+
+  @Test
+  void get_pokemon_by_name() {
+    when(pokemonRepository.findByName("Pikachu")).thenReturn(new Pokemon(5, "Pikachu", 25));
+
+    Pokemon pokemon = pokemonService.getPokemonByName("Pikachu");
+
+    verify(pokemonRepository).findByName("Pikachu");
+    assertThat(pokemon.getId()).isEqualTo(5);
+    assertThat(pokemon.getName()).isEqualTo("Pikachu");
+  }
+
+  @Test
+  void get_pokemon_by_name_throws_exception() {
+    when(pokemonRepository.findByName("Pikachu")).thenReturn(null);
+
+    assertThrows(
+        EntityNotFoundException.class,
+        () -> {
+          pokemonService.getPokemonByName("Pikachu");
         });
   }
 }

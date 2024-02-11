@@ -96,4 +96,26 @@ public class PokemonServiceShould {
           pokemonService.getPokemonByName("Pikachu");
         });
   }
+
+  @Test
+  void delete_pokemon_by_id() {
+    when(pokemonRepository.findById(1)).thenReturn(Optional.of(new Pokemon(1, "Bulbasaur", 25)));
+
+    Pokemon pokemon = pokemonService.deletePokemonById(1);
+
+    verify(pokemonRepository).deleteById(1);
+    assertThat(pokemon.getId()).isEqualTo(1);
+    assertThat(pokemon.getName()).isEqualTo("Bulbasaur");
+    assertThat(pokemon.getBaseExperience()).isEqualTo(25);
+  }
+
+  @Test
+  void delete_pokemon_by_id_throws_exception() {
+    when(pokemonRepository.findById(5)).thenReturn(Optional.empty());
+    assertThrows(
+        EntityNotFoundException.class,
+        () -> {
+          pokemonService.deletePokemonById(5);
+        });
+  }
 }

@@ -3,8 +3,9 @@ package com.pokemon.integrationTests;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.blankOrNullString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+import com.pokemon.exceptions.EntityNotFoundException;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.restassured.RestAssured;
@@ -53,6 +54,26 @@ public class PokemonIntegrationTest {
         .body("baseExperience", not(nullValue()))
         .body("createdAt", is(not(blankOrNullString())))
         .body("updatedAt", is(not(blankOrNullString())))
+        .extract()
+        .body()
+        .path("id");
+  }
+
+  @Test
+  void removePokemon() {
+    int id = deletePokemon(1);
+    assertEquals(1, id);
+  }
+
+  private int deletePokemon(int id) {
+    return RestAssured.given()
+        .log()
+        .all()
+        .when()
+        .delete(base + "/api/pokemons/delete/" + id)
+        .then()
+        .log()
+        .all()
         .extract()
         .body()
         .path("id");

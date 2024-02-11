@@ -12,9 +12,14 @@ public class PokemonController {
   }
 
   @Post
-  public Pokemon addPokemon(@Body PokemonRequest pokemonRequest) {
-    return pokemonService.addPokemon(pokemonRequest);
-//    throw new EntityNotFoundException("Pokemon not found!");
+  public PokemonResponse addPokemon(@Body PokemonRequest pokemonRequest) {
+    Pokemon pokemon = pokemonService.addPokemon(pokemonRequest);
+    return new PokemonResponse(
+            pokemon.getId(),
+            pokemon.getName(),
+            pokemon.getBaseExperience(),
+            pokemon.getCreatedAt(),
+            pokemon.getUpdatedAt());
   }
 
   @Get
@@ -46,6 +51,17 @@ public class PokemonController {
   @Get("/search/{name}")
   public PokemonResponse getPokemonByName(@PathVariable String name) {
     Pokemon pokemon = pokemonService.getPokemonByName(name);
+    return new PokemonResponse(
+        pokemon.getId(),
+        pokemon.getName(),
+        pokemon.getBaseExperience(),
+        pokemon.getCreatedAt(),
+        pokemon.getUpdatedAt());
+  }
+
+  @Delete("/delete/{id}")
+  public PokemonResponse deletePokemonById(@PathVariable int id) {
+    Pokemon pokemon = pokemonService.deletePokemonById(id);
     return new PokemonResponse(
         pokemon.getId(),
         pokemon.getName(),

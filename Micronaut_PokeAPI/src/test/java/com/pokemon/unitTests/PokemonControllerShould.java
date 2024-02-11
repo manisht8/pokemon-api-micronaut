@@ -1,6 +1,7 @@
 package com.pokemon.unitTests;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -25,12 +26,12 @@ public class PokemonControllerShould {
     when(pokemonService.addPokemon(any(PokemonRequest.class)))
         .thenReturn(new Pokemon(5, "Pikachu", 25));
 
-    Pokemon pokemon = pokemonController.addPokemon(new PokemonRequest(5, "Pikachu", 25));
+    PokemonResponse pokemon = pokemonController.addPokemon(new PokemonRequest(5, "Pikachu", 25));
 
     verify(pokemonService).addPokemon(any(PokemonRequest.class));
-    assertThat(pokemon.getId()).isEqualTo(5);
-    assertThat(pokemon.getName()).isEqualTo("Pikachu");
-    assertThat(pokemon.getBaseExperience()).isEqualTo(25);
+    assertThat(pokemon.id()).isEqualTo(5);
+    assertThat(pokemon.name()).isEqualTo("Pikachu");
+    assertThat(pokemon.baseExperience()).isEqualTo(25);
   }
 
   @Test
@@ -66,5 +67,17 @@ public class PokemonControllerShould {
     verify(pokemonService).getPokemonByName("Pikachu");
     assertThat(pokemon.id()).isEqualTo(5);
     assertThat(pokemon.name()).isEqualTo("Pikachu");
+  }
+
+  @Test
+  void invoke_delete_pokemon_by_id_in_service_and_returns_id() {
+    when(pokemonService.deletePokemonById(1)).thenReturn(new Pokemon(1, "Bulbasaur", 45));
+
+    PokemonResponse pokemonResponse = pokemonController.deletePokemonById(1);
+
+    verify(pokemonService).deletePokemonById(1);
+    assertThat(pokemonResponse.id()).isEqualTo(1);
+    assertThat(pokemonResponse.name()).isEqualTo("Bulbasaur");
+    assertThat(pokemonResponse.baseExperience()).isEqualTo(45);
   }
 }

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    body {
+        @apply bg-gradient-to-r from-sky-500 to-indigo-500;
+    }
+
+    img {
+        @apply size-[80%];
+    }
+
+    .container {
+        @apply inline-grid grid-cols-5 py-5 gap-5 px-20;
+    }
+
+    .card {
+        @apply flex flex-col rounded-md text-center text-2xl font-semibold items-center p-3 hover:shadow-lg;
+        background-color: rgba(114, 215, 233, 0.4);
+    }
+
+    td {
+        padding: 0 4px;
+    }
+
+    li {
+        @apply mx-[2px];
+    }
+}

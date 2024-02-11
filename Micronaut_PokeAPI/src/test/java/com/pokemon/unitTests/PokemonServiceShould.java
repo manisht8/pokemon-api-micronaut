@@ -1,27 +1,23 @@
 package com.pokemon.unitTests;
 
 
-import com.pokemon.Pokemon;
-import com.pokemon.PokemonRepository;
-import com.pokemon.PokemonRequest;
-import com.pokemon.PokemonService;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.pokemon.Pokemon;
+import com.pokemon.PokemonRepository;
+import com.pokemon.PokemonRequest;
+import com.pokemon.PokemonService;
+import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class PokemonServiceShould {
-    PokemonRepository pokemonRepository;
-    PokemonService pokemonService;
+    private PokemonRepository pokemonRepository;
+    private PokemonService pokemonService;
 
     @BeforeEach
     void setUp() {

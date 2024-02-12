@@ -55,16 +55,19 @@ const Home = (): ReactElement => {
               </div>
 
               : pokemons.sort((p1: Pokemon, p2: Pokemon) => (p1.id - p2.id)).map((pokemon: Pokemon) => {
-                return <div className='card' key={pokemon.id} onClick={() => { navigate(`${pokemon.id}`) }}>
+                return <div className='card' key={pokemon.id}>
                   <PokeImage url={pokemon.imageUrl} name={pokemon.name} />
-                  <h2>{capitalisedFirstLetter(pokemon.name)}</h2>
+                  <h2 onClick={() => { navigate(`${pokemon.id}`) }}
+                    className='underline p-2 rounded-md hover:bg-blue-500'>
+                    {capitalisedFirstLetter(pokemon.name)}
+                  </h2>
 
                   <input type='button'
                     value={'Delete'}
                     onClick={() => {
                       handleDelete(pokemon.id)
                     }}
-                    className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' />
+                    className='mt-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' />
                 </div>
               })
         }
